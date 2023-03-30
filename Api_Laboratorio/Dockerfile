@@ -1,6 +1,6 @@
 FROM node:16.16.0
 
-WORKDIR /APP
+WORKDIR /Laboratorio
 COPY package*.json ./
 COPY . .
 EXPOSE 8081
