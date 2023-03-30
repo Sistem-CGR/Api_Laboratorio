@@ -1,0 +1,57 @@
+// Instalación de docker en ubuntu todo las instrucción se ejecutaran como root
+// 1.- Para actualizar la lista de repositorios de Ubuntu Server 20.04-22.04 
+// escribe en la terminal de comandos la instrucción: 
+sudo apt update
+// Si es necesario y el sistema lo pide haz un upgrade:
+sudo apt upgrade
+
+// 2.- Instalar dependencias 
+// Para que funcione correctamente Docker es necesario instalar algunas dependencias para ello corre el siguiente comando en la terminal:
+apt install apt-transport-https ca-certificates curl software-properties-common -y
+
+// 3.- Agregar repositorio de Docker
+// Para descargar Docker desde el repositorio oficial es necesario agregar la GPG Key 
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+//Agrega el repositorio de Docker a la lista de repositorios
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+// Actualizamos los repositorios
+apt update
+
+// 4.- Instalar Docker y Docker Compose
+apt install docker-ce docker-compose -y
+
+// 5.- Activa el servicio de Docker
+systemctl start docker
+// Para comprobar el estado del servicio:
+systemctl status docker
+
+// 6.- Reiniciar ubuntu
+shutdown -r now
+
+// Crear imagen y contenedor
+
+// 1.-  Ahora creamos la imagen para la api, para eso sera necesario ejecutar las instrucciones como root.
+// Sustituimos  "Nombre_del_contenedor" por el nombre de su elección
+    docker build -t Nombre_del_contenedor .
+    Ejemplo: docker build -t laboratorio .
+
+// Descripción de parámetros
+    docker build: Este es el comando que le indica a Docker que debe construir una nueva imagen de contenedor.
+    -t laboratorio: Este parámetro es opcional, pero si se usa, le da a la imagen de contenedor un nombre descriptivo. En este caso, se le está dando el nombre "laboratorio".
+    ( . ): Este es el directorio de contexto para la construcción de la imagen. Es decir, Docker busca el archivo Dockerfile en el directorio actual (.) y utiliza ese archivo para construir la imagen de contenedor.
+
+ // 2.- Una vez creada la imagen ejecutamos la instrucción para crear el contenedor
+ docker run --restart=always -d -p 8081:8081 Nombre_del _contenedor
+
+ // Descripción de parámetros
+
+--restart=always: Este parámetro especifica que el contenedor debe reiniciarse siempre que se detenga inesperadamente, 
+a menos que se haya detenido de forma explícita mediante el comando "docker stop".
+
+-d: este parámetro inicia el contenedor en segundo plano (es decir, en modo "detached") para que no bloquee la terminal que se está utilizando.
+
+-p 8081:8081: este parámetro mapea el puerto 8081 del host (es decir, la máquina local donde se está ejecutando Docker) al puerto 8081 del contenedor. 
+ Esto significa que cuando se acceda al puerto 8081 en el host, se redireccionará al puerto 8081 dentro del contenedor.
+
+laboratorio: Este parámetro especifica el nombre de la imagen de Docker que se utilizará para crear el contenedor.
